@@ -4,7 +4,7 @@ class TranslationApp {
   constructor() {
     this.polyglot = new Polyglot();
     this.currentLocale = localStorage.getItem('locale') || 'ja';
-    //this.updateLocale = 
+    this.updateLocale = this.updateLocale.bind(this);
   }
 
   setup() {
@@ -14,20 +14,27 @@ class TranslationApp {
     */
     const currentLocale = this.currentLocale
     if(currentLocale === 'ja'){
-      polyglot.extend({
-        "message" : "こんにちは、世界"
+      this.polyglot.extend({
+        'message': 'こんにちは、世界',
       });
     } else {
-      polyglot.extend({
-        "message" : "Hello, world"
+      this.polyglot.extend({
+        'message': 'Hello, world',
       });
     }
+    this.polyglot.t('message');
   }
 
   updateLocale(e) {
     /*
       ボタンにセットされたdata-localeを元に現在のlocaleを変更します。
     */
+    e.preventDefault();
+    const getLocale = e.target.dataset.locale;
+    localStorage.setItem('locale', getLocale);
+    this.currentLocale = getLocale;
+    console.log(getLocale);
+    this.showMessage();
   }
 
   showMessage() {
@@ -37,7 +44,8 @@ class TranslationApp {
     const main = document.getElementById('main');
     const div = document.createElement('div');
     main.appendChild(div);
-    return div.innerHTML = `<h1>${this.polyglot.t("message")}</h1>`
+    const getMessage = this.setup();
+    return div.innerHTML = `<h1>${getMessage}</h1>`;
   }
 }
 
