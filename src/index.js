@@ -22,7 +22,6 @@ class TranslationApp {
         'message': 'Hello, world',
       });
     }
-    this.polyglot.t('message');
   }
 
   updateLocale(e) {
@@ -34,6 +33,7 @@ class TranslationApp {
     localStorage.setItem('locale', getLocale);
     this.currentLocale = getLocale;
     console.log(getLocale);
+    this.setup();
     this.showMessage();
   }
 
@@ -42,10 +42,7 @@ class TranslationApp {
       mainというidがセットされた要素の下にh1タグで現在のlocaleに応じて、メッセージを表示します。 
     */
     const main = document.getElementById('main');
-    const div = document.createElement('div');
-    main.appendChild(div);
-    const getMessage = this.setup();
-    return div.innerHTML = `<h1>${getMessage}</h1>`;
+    return main.innerHTML = `<h1>${this.polyglot.t('message')}</h1>`;
   }
 }
 
